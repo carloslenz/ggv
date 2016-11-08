@@ -15,7 +15,7 @@ go get github.com/carloslenz/ggv
 Usage
 -----
 
-Insert the above line in any go source file and call ```go generate``` before build:
+Insert the line below in any go source file and call ```go generate``` before build:
 
 ```go
 //go:generate ggv
