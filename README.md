@@ -1,7 +1,10 @@
 ```ggv``` - go+git version
 ==========================
 
-Embedding build information (`git`, `hostname`, date and time) into go binaries.
+Embed build information (`git`, `hostname`, date and time) into go binaries.
+
+Installation
+------------
 
 Add to your shell's init script (bash-compatible): 
 
@@ -48,7 +51,7 @@ WARNING
 
 THERE IS NO WARRANTY OF ANY KIND, as declared in the license below.
 
-Shell scripts like the one above are prone to break with even slight variations (e.g, in command line parameters, shell version, `$PATH`, installed commands, etc) and some scenarios might damage your system.
+Shell scripts like the one above are prone to break with even minor variations (e.g, in command line parameters, shell version, `$PATH`, installed commands, etc) and some scenarios might damage your system.
 
 So evaluate and use at your own risk. You've been warned!  
 
