@@ -6,23 +6,22 @@ Embed build information (`git`, `hostname`, date and time) into go binaries.
 Installation
 ------------
 
-Add to your shell's init script (bash-compatible): 
+Add to your shell's init script (tested with zsh on Ubuntu 16.04): 
 
 ```sh
-function ggv {
-    (cd `go list -f {{.Dir}} $1` && echo `git rev-parse HEAD` \(`git rev-parse --abbrev-ref HEAD`\) at `hostname -f` \(`date -R`\))
+ggv () {
+    (cd `go list -f {{.Dir}} $1` && echo `git rev-parse HEAD` \(`git rev-parse --abbrev-ref HEAD`\) at `hostname -f` \(`go version` -- `date -R`\))
 }
 
-function gogv {
+gogv () {
     OPERATION=$1
-    shift
-    VARIABLE=$1
-    shift
-    PACKAGE=$1
-    shift
+    VARIABLE=$2
+    PACKAGE=${3:-"."}
+    shift 2
+    if [ "$#" -gt 0 ]; then shift; fi
     echo \> ggv $PACKAGE
     GGV=`ggv $PACKAGE`
-    COMMAND=`echo go $OPERATION -ldflags \'-X \"$VARIABLE=$GGV\"\' $PACKAGE $*`
+    COMMAND=`echo go $OPERATION -ldflags \'-s -X \"$VARIABLE=$GGV\"\' $* $PACKAGE`
     echo \> $COMMAND
     eval $COMMAND
 }
@@ -43,17 +42,15 @@ var BuildVersion string
 To build or install your package:
 
 ```sh
-gogv install main.BuildVersion main.BuildVersion [package]
+gogv install main.BuildVersion [package]
 ```
 
-WARNING
+Warning
 -------
 
-THERE IS NO WARRANTY OF ANY KIND, as declared in the license below.
-
-Shell scripts like the one above are prone to break with even minor variations (e.g, in command line parameters, shell version, `$PATH`, installed commands, etc) and some scenarios might damage your system.
-
-So evaluate and use at your own risk. You've been warned!  
+You should check your shell version, `$PATH`, etc.
+Shells are tricky things and if yours doesn't recognize parts of the syntax, it might execute different commands.
+So evalute carefully to avoid problems.
 
 LICENSE
 -------
